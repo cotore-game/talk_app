@@ -1,0 +1,262 @@
+/* General Body and Layout */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    display: flex; /* デスクトップでは横並び */
+    flex-direction: row; /* デフォルトは横並び */
+    flex-wrap: wrap; /* 要素が収まらない場合に折り返す */
+    gap: 20px; /* 要素間の隙間 */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px; /* デスクトップでの固定幅 */
+    min-width: 200px; /* 最小幅を設定 */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    box-sizing: border-box; /* paddingとborderをwidthに含める */
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1; /* 残りのスペースを埋める */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 300px; /* 最小幅を設定 */
+    box-sizing: border-box; /* paddingとborderをwidthに含める */
+}
+
+/* Headings */
+h1, h2 {
+    color: #333;
+    font-size: 1.5em; /* 相対的なフォントサイズ */
+    margin-bottom: 15px;
+}
+
+/* User Count and List */
+#user-count {
+    font-size: 1.2em;
+    font-weight: bold;
+    display: block; /* 独立したブロック要素に */
+    margin-bottom: 10px;
+}
+
+#user-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#user-list li {
+    padding: 8px 0; /* タッチしやすいパディング */
+    border-bottom: 1px dotted #eee;
+    font-size: 0.95em;
+}
+
+#user-list li:last-child {
+    border-bottom: none;
+}
+
+/* Chat Board */
+#chat-board {
+    border: 1px solid #ddd;
+    padding: 10px;
+    height: 400px; /* 固定高さ */
+    max-height: 60vh; /* ビューポートの高さに対する最大値 */
+    overflow-y: scroll;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    word-wrap: break-word; /* 長い単語でも折り返す */
+}
+
+/* Individual Message Styling */
+.message {
+    margin-bottom: 10px;
+    padding-bottom: 5px; /* メッセージ間のスペース */
+    border-bottom: 1px solid #f0f0f0; /* 見やすい区切り線 */
+}
+
+.message:last-child {
+    border-bottom: none;
+}
+
+.message strong {
+    color: #007bff;
+    font-size: 1em;
+}
+
+.message .timestamp {
+    font-size: 0.75em;
+    color: #888;
+    margin-left: 10px;
+    display: block; /* 新しい行に表示 */
+    margin-top: 3px;
+}
+
+/* Form Elements (Chat Input) */
+form {
+    display: flex; /* 入力とボタンを横並びにする */
+    gap: 10px;
+}
+
+form input[type="text"] {
+    flex-grow: 1; /* 利用可能なスペースを埋める */
+    padding: 12px; /* タッチしやすいサイズ */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+form button {
+    padding: 12px 20px; /* タッチしやすいサイズ */
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    white-space: nowrap; /* ボタン内のテキストを折り返さない */
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* Logout Button */
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px; /* タッチしやすいサイズ */
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%; /* サイドバーの幅に合わせる */
+    box-sizing: border-box;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+/* Styles for login.php and index.php (username input) */
+.container {
+    background-color: #fff;
+    padding: 30px; /* パディングを増やす */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 50px auto; /* 上下のマージンを増やす */
+    box-sizing: border-box;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.container input[type="password"],
+.container input[type="text"] {
+    width: 100%; /* 親要素の幅いっぱいに広げる */
+    padding: 12px; /* タッチしやすいサイズ */
+    margin-bottom: 15px; /* スペースを増やす */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.container button {
+    width: 100%; /* 親要素の幅いっぱいに広げる */
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    box-sizing: border-box;
+}
+
+.container button:hover {
+    background-color: #0056b3;
+}
+
+/* Error Message Style */
+.error {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* スマートフォンでは縦並び */
+        margin: 10px; /* 全体のマージンを減らす */
+    }
+
+    .sidebar {
+        width: 100%; /* 全幅にする */
+        margin-right: 0;
+        margin-bottom: 20px; /* メインコンテンツとの間にスペース */
+    }
+
+    .main-content {
+        width: 100%; /* 全幅にする */
+    }
+
+    #chat-board {
+        height: 300px; /* スマートフォンでの高さを調整 */
+        max-height: 50vh;
+    }
+
+    form {
+        flex-direction: column; /* 入力とボタンを縦並びにする */
+        gap: 10px;
+    }
+
+    form input[type="text"],
+    form button {
+        width: 100%; /* 全幅にする */
+    }
+
+    .message .timestamp {
+        margin-left: 0;
+        text-align: right; /* タイムスタンプを右寄せに */
+    }
+
+    .container {
+        margin: 20px auto; /* スマートフォンでの上下マージンを調整 */
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        margin: 5px;
+    }
+
+    .sidebar, .main-content {
+        padding: 15px;
+    }
+
+    h1, h2 {
+        font-size: 1.3em;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .container h2 {
+        font-size: 1.4em;
+    }
+}
