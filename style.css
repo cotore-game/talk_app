@@ -3,7 +3,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     background-color: #e0f2f7; /* 明るい水色 */
-    display: flex; /* デスクトップでは横並び */
+    display: flex;
     flex-direction: row; /* デフォルトは横並び */
     flex-wrap: wrap; /* 要素が収まらない場合に折り返す */
     gap: 20px; /* 要素間の隙間 */
@@ -153,8 +153,7 @@ body {
     position: relative; /* ★追加: メンション候補の絶対配置基準 */
 }
 
-.message-form input[type="text"],
-.message-form input[type="password"] {
+.message-form input[type="text"], .message-form input[type="password"] {
     flex-grow: 1; /* 入力フィールドがスペースを埋める */
     padding: 12px;
     border: 1px solid #bdbdbd;
@@ -163,8 +162,7 @@ body {
     box-sizing: border-box;
 }
 
-.message-form input[type="text"]:focus,
-.message-form input[type="password"]:focus {
+.message-form input[type="text"]:focus, .message-form input[type="password"]:focus {
     outline: none;
     border-color: #42a5f5; /* フォーカス時の色 */
     box-shadow: 0 0 5px rgba(66, 165, 245, 0.5);
@@ -186,32 +184,40 @@ body {
     background-color: #004d40;
 }
 
-/* Auth Pages (login, username input) */
+/* Authentication Forms (Login/Username input) */
 .auth-container {
-    width: 100%;
-    max-width: 400px; /* 最大幅を設定 */
-    margin: 100px auto; /* 中央寄せ */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* ビューポートの高さ全体を使用 */
+    background-color: #e0f2f7;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%; /* フル幅に設定 */
+}
+
+.auth-form {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* 最大幅を設定 */
     text-align: center;
-}
-
-.auth-container h2 {
-    color: #263238;
-    margin-bottom: 25px;
-    font-size: 1.8em;
-}
-
-.auth-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.auth-form input[type="text"],
-.auth-form input[type="password"] {
+.auth-form h2 {
+    color: #263238;
+    margin-bottom: 20px;
+}
+
+.auth-form input[type="password"],
+.auth-form input[type="text"] {
+    width: calc(100% - 24px); /* パディングを考慮 */
     padding: 12px;
     border: 1px solid #bdbdbd;
     border-radius: 8px;
@@ -220,7 +226,7 @@ body {
 }
 
 .auth-form button {
-    background-color: #1976d2; /* 青系 */
+    background-color: #00796b;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -232,107 +238,159 @@ body {
 }
 
 .auth-form button:hover {
-    background-color: #1565c0;
+    background-color: #004d40;
 }
 
-/* Error Message Style */
 .error {
-    color: #d32f2f; /* 赤系 */
-    text-align: center;
+    color: #d32f2f; /* 赤 */
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    padding: 10px;
+    border-radius: 5px;
     margin-bottom: 15px;
-    font-weight: bold;
+    text-align: left;
 }
 
-/* Media Queries for Responsive Design */
-@media (max-width: 900px) {
+/* メンション候補のスタイル */
+#mention-suggestions {
+    position: absolute; /* 親要素 .message-form を基準に配置 */
+    bottom: calc(100% + 5px); /* 入力フォームのすぐ上に表示 */
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* 初期状態では非表示 */
+}
+
+#mention-suggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eeeeee;
+}
+
+#mention-suggestions li:last-child {
+    border-bottom: none;
+}
+
+#mention-suggestions li:hover,
+#mention-suggestions li.selected {
+    background-color: #e0f2f7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     body {
-        flex-direction: column; /* タブレット・スマートフォンでは縦並び */
-        padding: 15px;
+        flex-direction: column; /* 縦積みに変更 */
+        padding: 15px; /* パディングを少し減らす */
+        gap: 15px; /* 要素間の隙間を調整 */
     }
 
     .sidebar {
-        width: 100%; /* 全幅にする */
-        margin-bottom: 20px; /* メインコンテンツとの間にスペース */
+        width: 100%; /* フル幅に */
+        min-width: unset; /* 最小幅を解除 */
         padding: 20px;
     }
 
     .main-content {
-        width: 100%; /* 全幅にする */
-        min-width: unset; /* 最小幅をリセット */
+        width: 100%; /* フル幅に */
+        min-width: unset; /* 最小幅を解除 */
         padding: 20px;
     }
 
+    .main-content h1 {
+        font-size: 1.8em; /* ヘッダーのフォントサイズを調整 */
+        margin-bottom: 15px;
+    }
+
     #chat-board {
-        height: 300px; /* スマートフォンでの高さを調整 */
-        max-height: 50vh;
+        max-height: 50vh; /* モバイルでのチャットボードの高さを調整 */
+        padding: 10px;
     }
 
-    .message-form {
-        flex-direction: column; /* 入力とボタンを縦並びにする */
-        gap: 10px;
-    }
-
-    .message-form button {
-        width: 100%; /* ボタンを全幅に */
+    .message {
+        padding: 8px 12px; /* メッセージのパディングを調整 */
+        font-size: 0.95em; /* メッセージのフォントサイズを調整 */
     }
 
     .message .timestamp {
-        float: none; /* 時刻のフロートを解除 */
-        display: block; /* 新しい行に表示 */
-        text-align: right;
+        display: block; /* 時刻を改行して表示 */
+        float: none; /* floatを解除 */
+        text-align: right; /* 右寄せに */
         margin-top: 5px;
+        font-size: 0.75em;
+    }
+
+    .message-form {
+        flex-direction: column; /* フォームの要素を縦積みに */
+        gap: 10px; /* フォーム要素間の隙間 */
+    }
+
+    .message-form input[type="text"],
+    .message-form input[type="password"],
+    .message-form button {
+        width: 100%; /* フル幅に */
+        padding: 10px; /* パディングを調整 */
+    }
+
+    .logout-button {
+        width: 100%; /* フル幅に */
+    }
+
+    .auth-form {
+        padding: 25px;
     }
 }
 
 @media (max-width: 480px) {
     body {
         padding: 10px;
+        gap: 10px;
     }
 
-    .sidebar, .main-content, .auth-container {
+    .sidebar, .main-content {
         padding: 15px;
-        border-radius: 10px;
     }
 
-    .sidebar h2, .main-content h1, .auth-container h2 {
-        font-size: 1.5em;
+    .main-content h1 {
+        font-size: 1.6em;
     }
 
-    .message-form input, .auth-form input {
+    #chat-board {
+        max-height: 45vh; /* さらに高さを調整 */
+    }
+
+    .message {
         font-size: 0.9em;
-        padding: 10px;
     }
 
-    .message-form button, .auth-form button {
-        font-size: 1em;
-        padding: 10px;
+    .message strong, .message .trip {
+        font-size: 0.95em;
     }
-}
 
-/* メンション候補のスタイル */
-.mention-suggestions {
-    position: absolute; /* メッセージ入力フィールドに重ねるため */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    max-height: 150px;
-    overflow-y: auto;
-    z-index: 10;
-    width: calc(100% - 20px); /* 親要素の幅に合わせる (左右のpadding 10px*2=20px を考慮) */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: none; /* デフォルトでは非表示 */
-    top: -155px; /* input fieldの上に表示 */
-    left: 10px; /* input fieldと合わせる */
-    border-radius: 5px;
-}
+    .message .timestamp {
+        font-size: 0.7em;
+    }
 
-.mention-suggestions div {
-    padding: 8px 10px;
-    cursor: pointer;
-    white-space: nowrap; /* ユーザー名が長すぎても改行しない */
-    overflow: hidden;
-    text-overflow: ellipsis; /* はみ出た場合は...で表示 */
-}
+    .message-form input[type="text"],
+    .message-form input[type="password"],
+    .message-form button,
+    .logout-button,
+    .auth-form input[type="password"],
+    .auth-form input[type="text"],
+    .auth-form button {
+        font-size: 0.9em;
+        padding: 8px;
+    }
 
-.mention-suggestions div:hover {
-    background-color: #f0f0f0;
+    .auth-form {
+        padding: 20px;
+    }
 }
