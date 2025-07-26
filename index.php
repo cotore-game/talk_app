@@ -97,7 +97,7 @@ $username = getSessionUsername(); // XSS対策済みのユーザー名を取得
         <form id="message-form" class="message-form">
             <input type="hidden" id="csrf-token" value="<?php echo htmlspecialchars(generateCsrfToken(), ENT_QUOTES, 'UTF-8'); ?>">
             <input type="text" id="message-input" placeholder="メッセージを入力..." autocomplete="off" required maxlength="500">
-            <input type="password" id="trip-password-input" placeholder="トリップパスワード (任意)" autocomplete="new-password" maxlength="32">
+            <div id="mention-suggestions" class="mention-suggestions"></div> <input type="password" id="trip-password-input" placeholder="トリップパスワード (任意)" autocomplete="new-password" maxlength="32">
             <button type="submit">送信</button>
         </form>
     </div>

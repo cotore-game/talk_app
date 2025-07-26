@@ -150,6 +150,7 @@ body {
     gap: 10px;
     padding-top: 15px;
     border-top: 1px solid #e0e0e0; /* 上部にボーダー */
+    position: relative; /* ★追加: メンション候補の絶対配置基準 */
 }
 
 .message-form input[type="text"],
@@ -306,4 +307,32 @@ body {
         font-size: 1em;
         padding: 10px;
     }
+}
+
+/* メンション候補のスタイル */
+.mention-suggestions {
+    position: absolute; /* メッセージ入力フィールドに重ねるため */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    width: calc(100% - 20px); /* 親要素の幅に合わせる (左右のpadding 10px*2=20px を考慮) */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: none; /* デフォルトでは非表示 */
+    top: -155px; /* input fieldの上に表示 */
+    left: 10px; /* input fieldと合わせる */
+    border-radius: 5px;
+}
+
+.mention-suggestions div {
+    padding: 8px 10px;
+    cursor: pointer;
+    white-space: nowrap; /* ユーザー名が長すぎても改行しない */
+    overflow: hidden;
+    text-overflow: ellipsis; /* はみ出た場合は...で表示 */
+}
+
+.mention-suggestions div:hover {
+    background-color: #f0f0f0;
 }

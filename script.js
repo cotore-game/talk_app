@@ -1,4 +1,7 @@
 // ユーザーリストとメッセージを定期的に更新する関数
+// ユーザーリストを保持する変数 (updateContentで更新される)
+let currentUsers = [];
+
 function updateContent() {
     // ユーザーリストの更新
     fetch('get_users.php')
@@ -21,10 +24,12 @@ function updateContent() {
             document.getElementById('user-count').textContent = data.count;
             const userList = document.querySelector('#user-list ul');
             userList.innerHTML = ''; // 一旦クリア
+            currentUsers = []; // ユーザーリストをクリア
             data.users.forEach(user => {
                 const li = document.createElement('li');
                 li.textContent = user; // 既にPHP側でXSS対策済み
                 userList.appendChild(li);
+                currentUsers.push(user); // グローバル変数にユーザー名を追加
             });
         })
         .catch(error => {
@@ -124,6 +129,72 @@ document.getElementById('message-form').addEventListener('submit', function(e) {
         alert('メッセージを入力してください。');
     }
 });
+
+// メンション機能の追加
+const messageInput = document.getElementById('message-input');
+const mentionSuggestionsDiv = document.getElementById('mention-suggestions');
+
+messageInput.addEventListener('input', function() {
+    const text = messageInput.value;
+    const caretPos = messageInput.selectionStart; // カーソル位置を取得
+    const textBeforeCaret = text.substring(0, caretPos);
+
+    // 最後の '@' の位置を探す
+    const atIndex = textBeforeCaret.lastIndexOf('@');
+
+    if (atIndex !== -1) {
+        // '@' からカーソルまでの文字列を取得
+        const searchTerm = textBeforeCaret.substring(atIndex + 1);
+
+        // 半角スペースまたは全角スペースで区切られている場合は候補を表示しない
+        if (searchTerm.includes(' ') || searchTerm.includes('　')) {
+            mentionSuggestionsDiv.style.display = 'none';
+            return;
+        }
+
+        const filteredUsers = currentUsers.filter(user =>
+            user.toLowerCase().startsWith(searchTerm.toLowerCase())
+        );
+
+        displaySuggestions(filteredUsers, atIndex);
+    } else {
+        mentionSuggestionsDiv.style.display = 'none';
+    }
+});
+
+function displaySuggestions(users, atIndex) {
+    mentionSuggestionsDiv.innerHTML = '';
+    if (users.length > 0) {
+        users.forEach(user => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.textContent = user;
+            suggestionItem.addEventListener('click', function() {
+                // 選択されたユーザー名を挿入
+                const currentText = messageInput.value;
+                const textBeforeAt = currentText.substring(0, atIndex);
+                const textAfterAt = currentText.substring(messageInput.selectionStart); // カーソル以降のテキスト
+
+                // 完全なユーザー名を挿入
+                messageInput.value = `${textBeforeAt}@${user} ${textAfterAt}`;
+                messageInput.focus();
+                mentionSuggestionsDiv.style.display = 'none';
+            });
+            mentionSuggestionsDiv.appendChild(suggestionItem);
+        });
+        mentionSuggestionsDiv.style.display = 'block';
+    } else {
+        mentionSuggestionsDiv.style.display = 'none';
+    }
+}
+
+// メッセージ入力フィールドからフォーカスが外れたら候補を非表示にする
+// ただし、候補クリック時にもイベントが発火するので、少し遅延させる
+messageInput.addEventListener('blur', () => {
+    setTimeout(() => {
+        mentionSuggestionsDiv.style.display = 'none';
+    }, 100);
+});
+
 
 // ページロード時と定期的にコンテンツを更新
 updateContent();
